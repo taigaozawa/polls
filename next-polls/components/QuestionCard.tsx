@@ -19,10 +19,10 @@ const QuestionCard: React.FC<Props> = props => {
         <div className="border-t my-2">
           {props.options.map((option, index) => {
             return (
-              <div key={index} className="border-b py-1">
+              <div key={index} className="border-b ">
                 {props.multiple ?
                   <div>
-                    <label className="flex items-center">
+                    <label className="flex items-center py-1 cursor-pointer hover:bg-gray-100">
                       <input
                         type="checkbox"
                         checked={checkedIndexes.includes(index)}
@@ -40,7 +40,7 @@ const QuestionCard: React.FC<Props> = props => {
                   </div>
                   :
                   <div>
-                    <label className="flex items-center">
+                    <label className="flex items-center py-1 cursor-pointer hover:bg-gray-100">
                       <input
                         type="radio"
                         checked={index === checkedIndexes[0]}
