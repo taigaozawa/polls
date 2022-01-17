@@ -22,7 +22,7 @@ const QuestionCard: React.FC<Props> = props => {
               <div key={index} className="border-b ">
                 {props.multiple ?
                   <div>
-                    <label className="flex items-center py-1 cursor-pointer hover:bg-gray-100">
+                    <label className="flex items-center py-2 cursor-pointer hover:bg-gray-100">
                       <input
                         type="checkbox"
                         checked={checkedIndexes.includes(index)}
@@ -40,7 +40,7 @@ const QuestionCard: React.FC<Props> = props => {
                   </div>
                   :
                   <div>
-                    <label className="flex items-center py-1 cursor-pointer hover:bg-gray-100">
+                    <label className="flex items-center py-2 cursor-pointer hover:bg-gray-100">
                       <input
                         type="radio"
                         checked={index === checkedIndexes[0]}
