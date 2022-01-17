@@ -13,12 +13,12 @@ const PollPage = () => {
     <div className="pt-5">
       <div className="text-gray-600">#{pollId}</div>
       <div className="font-bold text-2xl">アンケート！！</div>
-      <div className="text-gray-600 mt-1">例えば例文例えば例文例えば例文例えば例文例えば例文例えば例文例えば例文文例えば例文例えば例文文例えば例文例えば例文文例えば例文例えば例文文例えば例文例えば例文文例えば例文例えば例文</div>
+      <div className="text-gray-600 mt-1">これはこの投票フォームの説明文です。例文です例文です例文です例文です。例文です例文です例文です例文です。回答したら結果を見ることができます。</div>
       <div className="text-gray-600 text-sm mt-2">作成者: xxxxXXX</div>
 
       <div className="mt-5">
-        <QuestionCard questionId={1} questionText='サンプル問題' multiple={false} options={['aaa', 'bbb', 'ccc']} />
-        <QuestionCard questionId={2} questionText='サンプル問題' multiple={true} options={['aaa', 'bbb', 'ccc']} />
+        <QuestionCard questionId={1} questionText='サンプル質問です 1' multiple={false} options={['aaa', 'bbb', 'ccc']} />
+        <QuestionCard questionId={2} questionText='サンプル質問です 2' multiple={true} options={['あああ', 'いいい', 'ううう']} />
       </div>
 
       <div className="flex justify-end">
