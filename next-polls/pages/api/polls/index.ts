@@ -1,27 +1,48 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import {initializeApp, applicationDefault, cert} from 'firebase-admin/app';
-import {getFirestore, Timestamp, FieldValue} from 'firebase-admin/firestore';
-const serviceAccount = require('../../../serviceAccountKey.json');
+import {db} from '../../../utils/admin';
+import {Poll} from '../../../types/Poll';
 
-initializeApp({
-  credential: cert(serviceAccount)
-});
-
-const db = getFirestore();
-
+const getNumberOfPolls = async (collectionRef:FirebaseFirestore.CollectionReference) => {
+  const collection = await collectionRef.get();
+  return collection.size;
+}
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const newPoll: Poll = req.body;
+  const pollsRef = db.collection('polls');
+  const questionsRef = db.collection('questions');
+
+  const pollId = await getNumberOfPolls(pollsRef) + 1
+  
   switch(req.method) {
     case 'POST':
-      const newPoll = req.body;
       try {
-        res.status(200).json({newPoll});
+        await pollsRef.add({
+          pollId,
+          title: newPoll.title,
+          description: newPoll.description,
+          questionIds: newPoll.questions.map(q => q.questionId)
+        });
+        newPoll.questions.forEach(async question => {
+          await questionsRef.add(question)
+        })
+        res.status(200).json({
+          pollId,
+          title: newPoll.title,
+          description: newPoll.description,
+          questionIds: newPoll.questions.map(q => q.questionId)
+        });
       } catch (err) {
-        res.status(500).json({message: err.message})
+        res.status(500).json({message: err})
       }
       break;
     case 'GET':
-      res.status(200).json({message: 'GET'})
+      try {
+        const size = await getNumberOfPolls(pollsRef);
+        res.status(200).json({size});
+      } catch (err) {
+        res.status(500).json({message: err})
+      }
       break;
     default:
       break;

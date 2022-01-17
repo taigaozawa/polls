@@ -9,5 +9,5 @@ const config = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const firebaseApp = initializeApp(config);
+const firebaseApp = initializeApp(config, 'client');
 export default firebaseApp;

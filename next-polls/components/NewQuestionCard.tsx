@@ -32,7 +32,7 @@ const NewQuestionCard: React.FC<Props> = props => {
         <div className="border-t my-2 flex flex-col">
           {question.options.map((option, index) => {
             return (
-              <div className="flex border-b justify-between items-center">
+              <div key={index} className="flex border-b justify-between items-center">
                 <input
                   placeholder="選択肢を入力..."
                   onChange={e => {

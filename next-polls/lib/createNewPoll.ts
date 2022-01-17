@@ -10,7 +10,7 @@ export const createNewPoll = (title: string, description: string, questions: Que
       questions: validatedQuestions
     });
   } catch (err) {
-    alert(err.message);
+    alert(err);
   }
 }
 

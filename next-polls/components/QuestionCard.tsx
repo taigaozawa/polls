@@ -19,7 +19,7 @@ const QuestionCard: React.FC<Props> = props => {
         <div className="border-t my-2">
           {props.options.map((option, index) => {
             return (
-              <div className="border-b py-1">
+              <div key={index} className="border-b py-1">
                 {props.multiple ?
                   <div>
                     <label className="flex items-center">

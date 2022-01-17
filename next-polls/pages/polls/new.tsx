@@ -31,7 +31,7 @@ const NewPage = () => {
             <div className="text-sm mb-2">質問カード</div>
             {questions.map((question, index) => {
               return (
-                <div>
+                <div key={index}>
                   <NewQuestionCard 
                     index={index}
                     questions={questions}
