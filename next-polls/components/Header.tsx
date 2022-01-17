@@ -10,7 +10,7 @@ const Header = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   return (
     <>
-      <header className="mt-1">
+      <header className="pt-2 pb-1">
         <Container>
           <div className="flex justify-between items-center">
             <div className="flex items-baseline cursor-pointer" onClick={() => router.push('/polls')}>
