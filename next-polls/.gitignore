@@ -38,3 +38,4 @@ yarn-error.log*
 *.tsbuildinfo
 
 polls-taigaozawa-firebase-adminsdk-*.json
+serviceAccountKey.json
