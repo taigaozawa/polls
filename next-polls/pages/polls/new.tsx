@@ -4,11 +4,13 @@ import NewQuestionCard from '../../components/NewQuestionCard';
 import { useState } from 'react';
 import {Question} from '../../types/Question';
 import {createNewPoll} from '../../lib/createNewPoll';
+import { useAuthContext } from '../../utils/AuthContext';
 
 const NewPage = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
+  const {currentUser} = useAuthContext();
   return (
     <>
       <Layout>
@@ -57,7 +59,7 @@ const NewPage = () => {
             </div>
             <div className="flex justify-end">
               <div
-                onClick={() => createNewPoll(title, description, questions)}
+                onClick={() => createNewPoll(title, description, questions, currentUser)}
                 className="bg-green-600 hover:bg-green-700 cursor-pointer rounded-full px-4 py-2 text-white font-bold">作成 →</div>
             </div>
           </div>

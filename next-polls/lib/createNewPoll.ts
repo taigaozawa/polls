@@ -1,13 +1,21 @@
 import { Question } from "../types/Question";
 import axios from 'axios';
 import {v4 as uuidv4} from 'uuid';
+import { User } from "firebase/auth";
 
-export const createNewPoll = (title: string, description: string, questions: Question[]) => {
+export const createNewPoll = async (title: string, description: string, questions: Question[], currentUser?: User | null) => {
+  const idToken = await currentUser?.getIdToken(true);
   try {
     const validatedQuestions = validateQuestions(questions);
     axios.post('/api/polls', {
       title, description,
       questions: validatedQuestions
+    }, {
+      headers: {
+        'authorization': idToken || '',
+        'Accenpt': 'application/json',
+        'Content-Type': 'application/json'
+      }
     });
   } catch (err) {
     alert(err);
