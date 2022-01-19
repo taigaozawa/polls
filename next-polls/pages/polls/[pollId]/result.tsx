@@ -29,7 +29,7 @@ const ResultPage = () => {
       <Layout>
         <Container>
           <div className="pt-5">
-            <div className="text-gray-600">#{pollId}</div>
+            <div className="text-gray-600 mb-1">#{pollId}</div>
 
             {pollError
               ? (

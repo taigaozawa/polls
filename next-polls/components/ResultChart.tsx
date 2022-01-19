@@ -18,15 +18,14 @@ const ResultChart: React.FC<Props> = props => {
 
   return (
     <div>
-      <ResponsiveContainer width="100%" height={150}>
+      <ResponsiveContainer width="100%" height={120}>
       <ComposedChart
         layout="vertical"
         data={chartData} 
-        margin={{ top: 10, right: 0, bottom: 0, left: 0 }}
+        margin={{ top: 10, right: 70, bottom: 0, left: 70 }}
       >
         <XAxis
         type="number"
-        domain={[0, numberOfSubmits]}
         hide={true}
         />
         <YAxis 
@@ -35,6 +34,7 @@ const ResultChart: React.FC<Props> = props => {
           axisLine={false}
           interval={0}
           tickLine={false}
+          tickSize={10}
         />
         <Tooltip /> 
         <Bar
