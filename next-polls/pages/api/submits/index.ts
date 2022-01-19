@@ -3,13 +3,14 @@ import {Poll} from '../../../types/Poll';
 import adminApp from '../../../utils/admin';
 import admin from 'firebase-admin';
 import { connectToDb } from '../../../lib/db';
-import { PollRequest } from '../../../types/PollRequest';
-import { Question } from '../../../types/Question';
+import {Submit} from '../../../types/Submit';
+import {SubmitRequest} from '../../../types/SubmitRequest';
+import { Answer } from '../../../types/Answer';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const newPollRequest: PollRequest = req.body;
-  const newPoll: Poll = newPollRequest.poll;
-  const newQuestions: Question[] = newPollRequest.questions;
+  const newSubmitRequest: SubmitRequest = req.body;
+  const newSubmit: Submit = newSubmitRequest.submit;
+  const newAnswers: Answer[] = newSubmitRequest.answers;
 
   const idToken = req.headers.authorization;
 
@@ -33,18 +34,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
       db.collection('polls').insertOne(newPollWithIncrementId);
     }
-    return incrementId
+    return incrementId;
   }
   
   switch(req.method) {
     case 'POST':
       try {
-        if (newPoll.createdBy === verified?.uid) {
-          const pollId = await insertPoll(newPoll)
-          newQuestions.forEach(newQuestion => {
-            db.collection('questions').insertOne(newQuestion);
+        if (newSubmit.createdBy === verified?.uid) {
+          db.collection('submits').insertOne(newSubmit);
+          newAnswers.forEach(newAnswer => {
+            db.collection('answers').insertOne(newAnswer);
           })
-          res.status(200).json({pollId});
+          res.status(200).json({message: 'OK.'});
         } else {
           res.status(401).json({message: 'Unauthorized.'});
         }

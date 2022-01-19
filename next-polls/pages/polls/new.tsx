@@ -1,12 +1,12 @@
 import Layout from '../../components/Layout';
 import Container from '../../components/Container';
 import NewQuestionCard from '../../components/NewQuestionCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {Question} from '../../types/Question';
 import {createNewPoll} from '../../lib/createNewPoll';
 import { useAuthContext } from '../../utils/AuthContext';
 import { v4 as uuidv4} from 'uuid';
-import router from 'next/router';
+import Router from 'next/router';
 
 const NewPage = () => {
   const newQuestion: Question = {
@@ -21,6 +21,10 @@ const NewPage = () => {
   const [questions, setQuestions] = useState<Question[]>([newQuestion]);
   const [sent, setSent] = useState(false);
   const {currentUser} = useAuthContext();
+
+  useEffect(() => {
+    setSent(false);
+  }, []);
 
   return (
     <>
@@ -70,7 +74,7 @@ const NewPage = () => {
                   setSent(true);
                   const pollId = await createNewPoll(title, description, questions, currentUser);
                   if(pollId) {
-                    router.push(`/polls/${pollId}`);
+                    Router.push(`/polls/${pollId}`);
                   } else {
                     setSent(false);
                   }

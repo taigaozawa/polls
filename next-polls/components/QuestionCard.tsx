@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import useSWR from 'swr';
 import { Question } from "../types/Question";
+import { Submit } from "../types/Submit";
+import { Answer } from "../types/Answer";
 
 interface Props {
   questionUuid: string;
   index: number;
+  answers: Answer[];
+  setAnswers: (answers:Answer[]) => void;
 }
 
 const QuestionCard: React.FC<Props> = props => {
@@ -22,6 +26,17 @@ const QuestionCard: React.FC<Props> = props => {
   const {data} = useSWR(apiUrl, fetcher);
 
   const question: Question = data;
+
+  useEffect(() => {
+    const newAnswers = props.answers.map((answer, i) => {
+      if (i === props.index) {
+        return {...answer, indexes: checkedIndexes}
+      } else {
+      return answer;
+      }
+    })
+    props.setAnswers(newAnswers)
+  }, [checkedIndexes]);
 
   return (
     <>
