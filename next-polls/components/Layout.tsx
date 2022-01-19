@@ -5,7 +5,7 @@ const Layout: React.FC = props => {
   return (
     <div>
       <Header />
-      <main className="min-h-screen bg-gray-100">{props.children}</main>
+      <main className="min-h-screen bg-gray-100 pb-5">{props.children}</main>
       <Footer />
     </div>
   )

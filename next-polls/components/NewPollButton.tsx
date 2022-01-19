@@ -6,7 +6,7 @@ const NewPollButton = () => {
             <div
             onClick={() => router.push('/polls/new')} 
             className="bg-green-600 text-white font-bold rounded-full px-3 py-1 hover:bg-green-700 cursor-pointer">
-              新しい投票を作成 ＋
+              新規投票フォーム ＋
             </div>
           </div>
   )
