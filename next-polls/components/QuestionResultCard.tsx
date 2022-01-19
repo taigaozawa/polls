@@ -46,25 +46,31 @@ const QuestionResultCard: React.FC<Props> = props => {
             const numberOfSelection = questionResult?.distribution[index];
             const numberOfSubmits = questionResult?.numberOfSubmits;
             const ratio = numberOfSelection / numberOfSubmits;
-            const percentage = Math.round(ratio * 1000) / 10;
+            const percentage = Math.round(ratio * 1000) /10;
             return (
               <div key={index} className="border-b ">
                 {question?.multiple ?
                   <div>
-                    {option} ... {numberOfSelection}/{numberOfSubmits} ({percentage || 0}%)
+                    <span className="mr-1">{option} ...</span>
+                    <span className="mr-1 font-bold">{percentage || 0}%</span> 
+                    <span className="text-sm">({numberOfSelection})</span>
                   </div>
                   :
                   <div>
-                    {option} ... {numberOfSelection}/{numberOfSubmits} ({percentage || 0}%)
+                    <span className="mr-1">{option} ...</span>
+                    <span className="mr-1 font-bold">{percentage || 0}%</span> 
+                    <span className="text-sm">({numberOfSelection})</span>
                   </div>
                 }
               </div>
             )
           })
           }
+          <div className="mt-2 mb-2 text-sm text-gray-500">回答者数: {numberOfSubmits}</div>
           <div>
            <ResultChart options={options} distribution={distribution} numberOfSubmits={numberOfSubmits} />
         </div>
+        
       </div>
     </div>
     </div>
