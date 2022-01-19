@@ -17,35 +17,34 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const {db} = await connectToDb();
 
-  const insertPoll = (newPoll: Poll) => {
-    db.collection('counters').findOneAndUpdate(
+  const insertPoll = async (newPoll: Poll) => {
+    const doc = await db.collection('counters').findOneAndUpdate(
       {key: 'pollId'},
       {$inc: {seq: 1}},
-      {upsert: true},
-      (err, doc) => {
-        const incrementId = doc?.value?.seq;
-        if(!incrementId) {
-          insertPoll(newPoll);
-        } else {
-          const newPollWithIncrementId: Poll = {
-            ...newPoll,
-            pollId: incrementId
-          }
-          db.collection('polls').insertOne(newPollWithIncrementId);
-        }
+      {upsert: true }
+    );
+    const incrementId = Number(doc?.value?.seq);
+    if(!incrementId) {
+      insertPoll(newPoll);
+    } else {
+      const newPollWithIncrementId: Poll = {
+        ...newPoll,
+        pollId: incrementId
       }
-    )
+      db.collection('polls').insertOne(newPollWithIncrementId);
+    }
+    return incrementId
   }
   
   switch(req.method) {
     case 'POST':
       try {
         if (newPoll.createdBy === verified?.uid) {
-          insertPoll(newPoll)
+          const pollId = await insertPoll(newPoll)
           newQuestions.forEach(newQuestion => {
             db.collection('questions').insertOne(newQuestion);
           })
-          res.status(200).json({newPoll});
+          res.status(200).json({pollId});
         } else {
           res.status(401).json({message: 'Unauthorized'});
         }

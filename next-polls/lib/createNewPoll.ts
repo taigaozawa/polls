@@ -1,6 +1,6 @@
 import { Question } from "../types/Question";
 import axios from 'axios';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { User } from "firebase/auth";
 import { PollRequest } from "../types/PollRequest";
 
@@ -8,24 +8,26 @@ export const createNewPoll = async (title: string, description: string, question
   if (!currentUser) alert('ログインしてください。');
   try {
     const idToken = await currentUser?.getIdToken(true);
-    const pollRequest: PollRequest = {
-    poll: {
-      pollId: -1,
-      title,
-      description,
-      questionUuids: questions.map(q => q.uuid),
-      createdBy: currentUser?.uid || ''
-    },
-    questions: questions
-  }
     const validatedQuestions = validateQuestions(questions);
-    axios.post('/api/polls', pollRequest, {
+    const pollRequest: PollRequest = {
+      poll: {
+        pollId: -1,
+        title,
+        description,
+        questionUuids: questions.map(q => q.uuid),
+        createdBy: currentUser?.uid || ''
+      },
+      questions: validatedQuestions
+    }
+    const response = await axios.post('/api/polls', pollRequest, {
       headers: {
         'authorization': idToken || '',
         'Accenpt': 'application/json',
         'Content-Type': 'application/json'
       }
     });
+    const data = response.data
+    return data?.pollId
   } catch (err) {
     alert(err);
   }

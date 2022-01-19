@@ -1,15 +1,25 @@
+import { Poll } from '../types/Poll';
 import PollCard from './PollCard';
+import useSWR from 'swr';
+import axios from 'axios';
 
-const PollList = () => {
+interface Props {
+  polls: Poll[];
+}
+
+const PollList: React.FC<Props> = props => {
+  const polls = props.polls;
+
   return (
     <div>
     <div className="text-lg text-gray-700 border-b mb-3">投票一覧</div>
-    <div className="mb-3">
-      <PollCard title="アンケートします！" pollId={1452} description="新しいアンケートです！！！"/>
-      </div>
-      <div>
-      <PollCard title="しつもーん" pollId={9373241} description="例文です。" />
-    </div>
+    {polls?.map(poll => {
+      return (
+        <div className="mb-3">
+          <PollCard title={poll.title} pollId={poll.pollId} description={poll.description} />
+        </div>
+      )
+    })}
     </div>
   )
 }

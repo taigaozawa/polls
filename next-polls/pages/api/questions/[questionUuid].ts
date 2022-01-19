@@ -13,9 +13,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           uuid: questionUuid.toString()
         });
         if (!foundQuestion) {
-          res.status(404).json({message: 'Not Found.'})
+          res.status(404).json({message: 'Not Found.'});
+          return;
         }
-        console.log(JSON.stringify(foundQuestion));
         res.status(200).json(foundQuestion);
       } catch (err) {
         res.status(500).json({message: err || 'Server Error.'})

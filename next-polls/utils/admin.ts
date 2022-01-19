@@ -13,12 +13,11 @@ const serviceAccount = JSON.stringify({
   client_x509_cert_url: process.env.CLIENT_X509_CERT_URL
 });
 
-let adminApp: admin.app.App;
-try {
-  adminApp = admin.initializeApp({
+const adminApp = admin.apps.length ?
+  admin.app('admin')
+  :
+  admin.initializeApp({
     credential: admin.credential.cert(JSON.parse(serviceAccount))
-  }, "admin");
-} catch (err) {
-  adminApp = admin.app('adminApp');
-}
+  }, 'admin')
+
 export default adminApp;

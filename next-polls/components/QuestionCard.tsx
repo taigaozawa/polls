@@ -1,26 +1,40 @@
 import { useState } from "react";
+import axios from 'axios';
+import useSWR from 'swr';
+import { Question } from "../types/Question";
 
 interface Props {
-  questionId: number;
-  questionText: string;
-  options: string[];
-  multiple: boolean;
+  questionUuid: string;
+  index: number;
 }
 
 const QuestionCard: React.FC<Props> = props => {
   const [checkedIndexes, setCheckedIndexes] = useState<number[]>([]);
+
+  const fetcher = (url: string) => {
+    if (!url) {
+      console.log('undefinedです');
+      return;
+    } 
+    return axios(url).then(res => res.data);
+  }
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_ORIGIN}/api/questions/${props.questionUuid}`
+  const {data} = useSWR(apiUrl, fetcher);
+
+  const question: Question = data;
+
   return (
     <>
       <div className="bg-white mb-5 p-4 rounded-xl shadow">
         <div className="flex items-baseline">
-          <div className="font-bold text-lg mr-2">No.{props.questionId}</div>
-          <div>{props.questionText}</div>
+          <div className="font-bold text-lg mr-2">No.{props.index + 1}</div>
+          <div>{question?.description}</div>
         </div>
         <div className="border-t my-2">
-          {props.options.map((option, index) => {
+          {question?.options.map((option, index) => {
             return (
               <div key={index} className="border-b ">
-                {props.multiple ?
+                {question?.multiple ?
                   <div>
                     <label className="flex items-center py-2 cursor-pointer hover:bg-gray-100">
                       <input

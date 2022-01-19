@@ -6,6 +6,7 @@ import {Question} from '../../types/Question';
 import {createNewPoll} from '../../lib/createNewPoll';
 import { useAuthContext } from '../../utils/AuthContext';
 import { v4 as uuidv4} from 'uuid';
+import router from 'next/router';
 
 const NewPage = () => {
   const [title, setTitle] = useState('');
@@ -40,7 +41,7 @@ const NewPage = () => {
               />
             <div>
             <div className="text-sm mb-2">質問カード</div>
-            {questions.map((question, index) => {
+            {questions.map((_question, index) => {
               return (
                 <div key={index}>
                   <NewQuestionCard 
@@ -62,7 +63,14 @@ const NewPage = () => {
             </div>
             <div className="flex justify-end">
               <div
-                onClick={() => createNewPoll(title, description, questions, currentUser)}
+                onClick={async () => {
+                  const pollId = await createNewPoll(title, description, questions, currentUser);
+                  if(pollId) {
+                    router.push(`/polls/${pollId}`)
+                  } else {
+                    router.push('/');
+                  }
+                }}
                 className="bg-green-600 hover:bg-green-700 cursor-pointer rounded-full px-4 py-2 text-white font-bold">作成 →</div>
             </div>
           </div>
