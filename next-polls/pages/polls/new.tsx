@@ -5,12 +5,21 @@ import { useState } from 'react';
 import {Question} from '../../types/Question';
 import {createNewPoll} from '../../lib/createNewPoll';
 import { useAuthContext } from '../../utils/AuthContext';
+import { v4 as uuidv4} from 'uuid';
 
 const NewPage = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
   const {currentUser} = useAuthContext();
+
+  const newQuestion: Question = {
+    uuid: uuidv4(),
+    description: '',
+    options: [''],
+    multiple: false,
+  }
+
   return (
     <>
       <Layout>
@@ -47,12 +56,6 @@ const NewPage = () => {
             <div className="flex">
             <div
               onClick={() => {
-                const newQuestion: Question = {
-                  questionId: questions.length + 1,
-                  questionText: '',
-                  options: [''],
-                  multiple: false,
-                }
                 setQuestions([...questions, newQuestion]);
               }}
              className="bg-blue-500 hover:bg-blue-600 mb-3 cursor-pointer text-sm font-bold text-white rounded-lg px-3 py-1">質問カードを追加 +</div>

@@ -1,6 +1,6 @@
 export type Question = {
-  questionId: number;
-  questionText: string;
+  uuid: string;
+  description: string;
   options: string[];
   multiple: boolean;
 }

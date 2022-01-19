@@ -15,10 +15,10 @@ const serviceAccount = JSON.stringify({
 
 let adminApp: admin.app.App;
 try {
-  adminApp = admin.app('adminApp');
-} catch (err) {
   adminApp = admin.initializeApp({
     credential: admin.credential.cert(JSON.parse(serviceAccount))
   }, "admin");
+} catch (err) {
+  adminApp = admin.app('adminApp');
 }
 export default adminApp;

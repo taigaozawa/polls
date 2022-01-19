@@ -17,10 +17,10 @@ const NewQuestionCard: React.FC<Props> = props => {
             rows={2}
             className="border rounded-lg px-2 py-1 w-full focus:outline-none focus:ring-2"
             placeholder="質問文を入力..."
-            value={question.questionText} onChange={e => {
+            value={question.description} onChange={e => {
               const newQuestions = props.questions.map((q, i) => {
                 if (i === props.index) {
-                  const newQ: Question = { ...q, questionText: e.target.value };
+                  const newQ: Question = { ...q, description: e.target.value };
                   return newQ;
                 } else {
                   return q;

@@ -2,15 +2,24 @@ import { Question } from "../types/Question";
 import axios from 'axios';
 import {v4 as uuidv4} from 'uuid';
 import { User } from "firebase/auth";
+import { PollRequest } from "../types/PollRequest";
 
 export const createNewPoll = async (title: string, description: string, questions: Question[], currentUser?: User | null) => {
-  const idToken = await currentUser?.getIdToken(true);
+  if (!currentUser) alert('ログインしてください。');
   try {
+    const idToken = await currentUser?.getIdToken(true);
+    const pollRequest: PollRequest = {
+    poll: {
+      pollId: -1,
+      title,
+      description,
+      questionUuids: questions.map(q => q.uuid),
+      createdBy: currentUser?.uid || ''
+    },
+    questions: questions
+  }
     const validatedQuestions = validateQuestions(questions);
-    axios.post('/api/polls', {
-      title, description,
-      questions: validatedQuestions
-    }, {
+    axios.post('/api/polls', pollRequest, {
       headers: {
         'authorization': idToken || '',
         'Accenpt': 'application/json',
@@ -27,7 +36,7 @@ const validateQuestions = (questions: Question[]) => {
     throw new Error('質問がありません。');
   }
   const validatedQuestions = questions.map(question => {
-    if (!question.questionText) {
+    if (!question.description) {
       throw new Error('質問文がありません。')
     }
     const validatedOptions = question.options.filter(option => {
