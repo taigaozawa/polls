@@ -1,7 +1,7 @@
 import Router, { useRouter } from 'next/router';
 import Layout from '../../../components/Layout';
 import Container from '../../../components/Container';
-import ResultCard from '../../../components/QuestionResultCard';
+import QuestionResultCard from '../../../components/QuestionResultCard';
 import { Poll } from '../../../types/Poll';
 import useSWR from 'swr';
 import axios from 'axios';
@@ -46,7 +46,7 @@ const ResultPage = () => {
                 {questionUuids?.map((questionUuid, index) => {
                   return (
                     <div key={index}>
-                      <ResultCard index={index} questionUuid={questionUuid}/>
+                      <QuestionResultCard index={index} questionUuid={questionUuid}/>
                     </div>
                   )
                 })}
