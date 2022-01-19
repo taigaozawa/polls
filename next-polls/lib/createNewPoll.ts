@@ -27,9 +27,12 @@ export const createNewPoll = async (title: string, description: string, question
       }
     });
     const data = response.data
-    return data?.pollId
+    const pollId = Number(data?.pollId);
+    if (!pollId) throw new Error();
+    return pollId
   } catch (err) {
     alert(err);
+    return null;
   }
 }
 

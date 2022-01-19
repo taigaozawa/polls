@@ -1,7 +1,5 @@
 import { Poll } from '../types/Poll';
 import PollCard from './PollCard';
-import useSWR from 'swr';
-import axios from 'axios';
 
 interface Props {
   polls: Poll[];
@@ -12,14 +10,18 @@ const PollList: React.FC<Props> = props => {
 
   return (
     <div>
-    <div className="text-lg text-gray-700 border-b mb-3">投票一覧</div>
-    {polls?.map(poll => {
-      return (
-        <div className="mb-3">
-          <PollCard title={poll.title} pollId={poll.pollId} description={poll.description} />
-        </div>
-      )
-    })}
+      <div className="text-lg text-gray-700 border-b mb-3">投票フォーム一覧</div>
+      {polls?.length ?
+        (polls?.map(poll => {
+          return (
+            <div className="mb-3">
+              <PollCard title={poll.title} pollId={poll.pollId} description={poll.description} />
+            </div>
+          )
+        }))
+        :
+        <div className="flex justify-center mt-5">...</div>
+      }
     </div>
   )
 }
