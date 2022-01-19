@@ -42,19 +42,19 @@ const ResultCard: React.FC<Props> = props => {
         </div>
         <div className="border-t my-2">
           {question?.options.map((option, index) => {
-            const numberOfSelection = questionResult?.distribution[index] || 0;
-            const numberOfSubmits = questionResult?.numberOfSubmits || 0;
+            const numberOfSelection = questionResult?.distribution[index];
+            const numberOfSubmits = questionResult?.numberOfSubmits;
             const ratio = numberOfSelection / numberOfSubmits;
-            const percentage = ratio * 100;
+            const percentage = Math.round(ratio * 1000) / 10 ;
             return (
               <div key={index} className="border-b ">
                 {question?.multiple ?
                   <div>
-                    {option} ... {numberOfSelection}/{numberOfSubmits} ({percentage}%)
+                    {option} ... {numberOfSelection}/{numberOfSubmits} ({percentage || 0}%)
                   </div>
                   :
                   <div>
-                    {option} ... {numberOfSelection}/{numberOfSubmits} ({percentage}%)
+                    {option} ... {numberOfSelection}/{numberOfSubmits} ({percentage || 0}%)
                   </div>
 
                 }
