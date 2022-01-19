@@ -24,7 +24,7 @@ const PollPage = () => {
 
   const pollFetcher = (url: string) => {
     if (url.match(/undefined/)) {
-      console.log('undefinedです');
+
       return;
     }
     return axios(url).then(res => res.data);
@@ -93,7 +93,10 @@ const PollPage = () => {
                 {poll && <div className="flex justify-end">
                   <div
                     onClick={async () => {
-                      if (!submit) return;
+                      if (!submit) {
+                        alert('再試行してください。');
+                        return;
+                      }
                       setSent(true);
                       const result = await createNewSubmit(submit, answers, currentUser);
                       if (result) {
