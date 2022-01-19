@@ -42,6 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         if (newSubmit.createdBy === verified?.uid) {
           db.collection('submits').insertOne(newSubmit);
+          console.log('newAnswers' + newAnswers);
           newAnswers.forEach(newAnswer => {
             db.collection('answers').insertOne(newAnswer);
           })

@@ -4,6 +4,7 @@ import useSWR from 'swr';
 import { Question } from "../types/Question";
 import { Submit } from "../types/Submit";
 import { Answer } from "../types/Answer";
+import { useAuthContext } from "../utils/AuthContext";
 
 interface Props {
   questionUuid: string;
@@ -14,6 +15,7 @@ interface Props {
 
 const QuestionCard: React.FC<Props> = props => {
   const [checkedIndexes, setCheckedIndexes] = useState<number[]>([]);
+  const {currentUser} = useAuthContext();
 
   const fetcher = (url: string) => {
     if (!url) {
@@ -37,6 +39,18 @@ const QuestionCard: React.FC<Props> = props => {
     })
     props.setAnswers(newAnswers)
   }, [checkedIndexes]);
+
+  useEffect(() => {
+    if (!currentUser) return;
+    const newAnswers = props.answers.map((answer, i) => {
+      if (i === props.index) {
+        return {...answer, createdBy: currentUser.uid}
+      } else {
+        return answer;
+      }
+    })
+    props.setAnswers(newAnswers);
+  }, [currentUser]);
 
   return (
     <>

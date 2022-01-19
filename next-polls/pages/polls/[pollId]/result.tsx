@@ -1,15 +1,12 @@
 import Router, { useRouter } from 'next/router';
 import Layout from '../../../components/Layout';
 import Container from '../../../components/Container';
-import ResultCard from '../../../components/ResultCard';
+import ResultCard from '../../../components/QuestionResultCard';
 import { Poll } from '../../../types/Poll';
 import useSWR from 'swr';
 import axios from 'axios';
-import { useAuthContext } from '../../../utils/AuthContext';
 
 const ResultPage = () => {
-  const { currentUser } = useAuthContext();
-
   const router = useRouter();
   const { pollId } = router.query;
 

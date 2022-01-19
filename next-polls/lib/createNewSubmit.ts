@@ -9,7 +9,7 @@ export const createNewSubmit = async (submit: Submit, answers: Answer[], current
   try {
     const idToken = await currentUser?.getIdToken(true);
     const submitRequest: SubmitRequest = {
-      submit, answers
+      submit,answers
     }
     const response = await axios.post('/api/submits', submitRequest, {
       headers: {
