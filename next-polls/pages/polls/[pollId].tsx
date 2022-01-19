@@ -47,7 +47,7 @@ const PollPage = () => {
 
                 {questionUuids?.map((questionUuid, index) => {
                   return (
-                    <div>
+                    <div key={index}>
                       <QuestionCard index={index} questionUuid={questionUuid} />
                     </div>
                   )

@@ -12,9 +12,9 @@ const PollList: React.FC<Props> = props => {
     <div>
       <div className="text-lg text-gray-700 border-b mb-3">投票フォーム一覧</div>
       {polls?.length ?
-        (polls?.map(poll => {
+        (polls?.map((poll, index) => {
           return (
-            <div className="mb-3">
+            <div className="mb-3" key={index}>
               <PollCard title={poll.title} pollId={poll.pollId} description={poll.description} />
             </div>
           )
