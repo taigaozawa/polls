@@ -14,10 +14,9 @@ interface Props {
 
 const ResultCard: React.FC<Props> = props => {
   const questionFetcher = (url: string) => {
-    if (!url) {
-      console.log('undefinedです');
+    if (url.match(/undefined/)) {
       return;
-    } 
+    }
     return axios(url).then(res => res.data);
   }
   const questionApiUrl = `${process.env.NEXT_PUBLIC_API_ORIGIN}/api/questions/${props.questionUuid}`

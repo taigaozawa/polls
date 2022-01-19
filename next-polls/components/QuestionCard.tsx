@@ -18,10 +18,9 @@ const QuestionCard: React.FC<Props> = props => {
   const {currentUser} = useAuthContext();
 
   const fetcher = (url: string) => {
-    if (!url) {
-      console.log('undefinedです');
+    if (url.match(/undefined/)) {
       return;
-    } 
+    }
     return axios(url).then(res => res.data);
   }
   const apiUrl = `${process.env.NEXT_PUBLIC_API_ORIGIN}/api/questions/${props.questionUuid}`
@@ -30,7 +29,7 @@ const QuestionCard: React.FC<Props> = props => {
   const question: Question = data;
 
   useEffect(() => {
-    const newAnswers = props.answers.map((answer, i) => {
+    const newAnswers = props.answers?.map((answer, i) => {
       if (i === props.index) {
         return {...answer, indexes: checkedIndexes}
       } else {
@@ -42,7 +41,7 @@ const QuestionCard: React.FC<Props> = props => {
 
   useEffect(() => {
     if (!currentUser) return;
-    const newAnswers = props.answers.map((answer, i) => {
+    const newAnswers = props.answers?.map((answer, i) => {
       if (i === props.index) {
         return {...answer, createdBy: currentUser.uid}
       } else {

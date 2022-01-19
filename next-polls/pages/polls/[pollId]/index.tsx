@@ -49,7 +49,7 @@ const PollPage = () => {
   }, [currentUser, pollId]);
 
   useEffect(() => {
-    const emptyAnswers: Answer[] = poll.questionUuids.map(questionUuid => {
+    const emptyAnswers: Answer[] = poll?.questionUuids.map(questionUuid => {
       return {
         questionUuid: questionUuid,
         indexes: [],
@@ -57,7 +57,7 @@ const PollPage = () => {
       }
     });
     setAnswers(emptyAnswers);
-  }, [poll.questionUuids])
+  }, [poll?.questionUuids])
 
   useEffect(() => {
     setSent(false);
