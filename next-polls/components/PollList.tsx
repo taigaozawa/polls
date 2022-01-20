@@ -21,7 +21,17 @@ const PollList: React.FC<Props> = props => {
           )
         }))
         :
-        <SkeltonCard />
+        <div>
+          <div className="mb-3">
+            <SkeltonCard />
+          </div>
+          <div className="mb-3">
+            <SkeltonCard />
+          </div>
+          <div className="mb-3">
+            <SkeltonCard />
+          </div>
+        </div>
       }
     </div>
   )
