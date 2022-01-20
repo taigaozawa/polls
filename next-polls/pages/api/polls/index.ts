@@ -12,7 +12,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const newQuestions: Question[] = newPollRequest.questions;
 
   const idToken = req.headers.authorization;
-
   const verified = idToken ? await admin.auth(adminApp).verifyIdToken(idToken) : null;
 
   const {db} = await connectToDb();

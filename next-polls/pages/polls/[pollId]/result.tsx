@@ -21,7 +21,7 @@ const ResultPage = () => {
     shouldRetryOnError: false
   });
 
-  const poll: Poll = pollData;
+  const poll: Poll = pollData?.poll;
   const questionUuids: string[] = poll?.questionUuids;
 
   return (

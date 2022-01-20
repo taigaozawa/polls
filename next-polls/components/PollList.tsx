@@ -1,5 +1,6 @@
 import { Poll } from '../types/Poll';
 import PollCard from './PollCard';
+import SkeltonCard from './SkeltonCard';
 
 interface Props {
   polls: Poll[];
@@ -20,7 +21,7 @@ const PollList: React.FC<Props> = props => {
           )
         }))
         :
-        <div className="flex justify-center mt-5">...</div>
+        <SkeltonCard />
       }
     </div>
   )

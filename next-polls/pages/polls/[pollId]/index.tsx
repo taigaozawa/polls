@@ -3,14 +3,14 @@ import Layout from '../../../components/Layout';
 import Container from '../../../components/Container';
 import QuestionCard from '../../../components/QuestionCard';
 import { Poll } from '../../../types/Poll';
-import auth from 'firebase/auth';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import axios from 'axios';
 import { createNewSubmit } from '../../../lib/createNewSubmit';
 import { Submit } from '../../../types/Submit';
 import { useEffect, useState } from 'react';
 import { Answer } from '../../../types/Answer';
 import { useAuthContext } from '../../../utils/AuthContext';
+import SkeltonCard from '../../../components/SkeltonCard';
 
 const PollPage = () => {
   const [submit, setSubmit] = useState<Submit>();
@@ -22,19 +22,25 @@ const PollPage = () => {
   const router = useRouter();
   const { pollId } = router.query;
 
-  const pollFetcher = (url: string) => {
+  const pollFetcher = async (url: string) => {
     if (url.match(/undefined/)) {
-
       return;
     }
-    return axios(url).then(res => res.data);
+    const idToken = await currentUser?.getIdToken();
+    return axios(url, {
+      headers: {
+        'authorization': idToken || '',
+        'Accenpt': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.data);
   }
   const apiUrl = `${process.env.NEXT_PUBLIC_API_ORIGIN}/api/polls/${pollId}`
   const { data, error } = useSWR(apiUrl, pollFetcher, {
     shouldRetryOnError: false
   });
 
-  const poll: Poll = data;
+  const poll: Poll = data?.poll;
   const questionUuids: string[] = poll?.questionUuids;
 
   useEffect(() => {
@@ -57,8 +63,18 @@ const PollPage = () => {
       }
     });
     setAnswers(emptyAnswers);
-  }, [poll?.questionUuids])
+  }, [poll?.questionUuids]);
 
+  useEffect(() => {
+    mutate(apiUrl);
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (data?.submitted && pollId) {
+      Router.push(`/polls/${pollId}/result`)
+    }
+  }, [data?.submitted])
+  
   useEffect(() => {
     setSent(false);
   }, []);
@@ -81,7 +97,13 @@ const PollPage = () => {
               (<div>
                 <div className="font-bold text-2xl">{poll?.title}</div>
                 <div className="text-gray-600 mt-1 mb-5">{poll?.description}</div>
-
+                <div
+                 onClick={() => {Router.push(`/polls/${pollId}/result`);}}
+                 className="flex justify-end mt-2 text-sm cursor-pointer text-gray-500 mb-5">回答しないで結果を見る →
+                 </div>
+                <div>
+                  {questionUuids?.length ?
+                  <div>
                 {questionUuids?.map((questionUuid, index) => {
                   return (
                     <div key={index}>
@@ -89,6 +111,21 @@ const PollPage = () => {
                     </div>
                   )
                 })}
+                </div>
+                :
+                <div>
+                  <div className="mb-3">
+                  <SkeltonCard />
+                  </div>
+                  <div className="mb-3">
+                  <SkeltonCard />
+                  </div>
+                  <div className="mb-3">
+                  <SkeltonCard />
+                  </div>
+                </div>
+              }
+                </div>
 
                 {poll && <div className="flex justify-end">
                   <div
@@ -115,7 +152,10 @@ const PollPage = () => {
                       回答して結果を見る →
                       </div>
                 </div>}
-
+                <div
+                 onClick={() => {Router.push(`/polls/${pollId}/result`);}}
+                 className="flex justify-end mt-2 text-sm cursor-pointer text-gray-500">回答しないで結果を見る →
+                 </div>
               </div>)
             }
           </div>

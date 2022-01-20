@@ -6,6 +6,17 @@ import { connectToDb } from '../../../lib/db';
 import {Submit} from '../../../types/Submit';
 import {SubmitRequest} from '../../../types/SubmitRequest';
 import { Answer } from '../../../types/Answer';
+import { Db } from 'mongodb';
+
+
+const insertSubmit = async (db: Db, newSubmit: Submit) => {
+  await db.collection('submits').insertOne(newSubmit);  
+}
+const insertAnswers = async (db: Db, newAnswers: Answer[]) => {
+  await newAnswers.forEach(newAnswer => {
+    db.collection('answers').insertOne(newAnswer);
+  })
+}
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const newSubmitRequest: SubmitRequest = req.body;
@@ -17,34 +28,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const verified = idToken ? await admin.auth(adminApp).verifyIdToken(idToken) : null;
 
   const {db} = await connectToDb();
-
-  const insertPoll = async (newPoll: Poll) => {
-    const doc = await db.collection('counters').findOneAndUpdate(
-      {key: 'pollId'},
-      {$inc: {seq: 1}},
-      {upsert: true }
-    );
-    const incrementId = Number(doc?.value?.seq);
-    if(!incrementId) {
-      insertPoll(newPoll);
-    } else {
-      const newPollWithIncrementId: Poll = {
-        ...newPoll,
-        pollId: incrementId
-      }
-      db.collection('polls').insertOne(newPollWithIncrementId);
-    }
-    return incrementId;
-  }
   
   switch(req.method) {
     case 'POST':
       try {
         if (newSubmit.createdBy === verified?.uid) {
-          db.collection('submits').insertOne(newSubmit);
-          newAnswers.forEach(newAnswer => {
-            db.collection('answers').insertOne(newAnswer);
-          })
+          await insertSubmit(db, newSubmit);
+          await insertAnswers(db, newAnswers);
           res.status(200).json({message: 'OK.'});
         } else {
           res.status(401).json({message: 'Unauthorized.'});
@@ -55,8 +45,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     case 'GET':
       try {
-        const pollsData = await db.collection('polls').find().toArray();
-        res.status(200).json(pollsData);
+        if (verified) {
+          const uid = verified.uid;
+        }
       } catch (err) {
         res.status(500).json(err);
       }
