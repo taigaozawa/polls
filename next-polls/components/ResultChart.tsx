@@ -7,7 +7,7 @@ interface Props {
 }
 
 const ResultChart: React.FC<Props> = props => {
-  const numberOfSubmits = props?.numberOfSubmits;
+  const optionsLength = props?.options?.length;
   const chartData = props?.options?.map((option, index) => {
     const numberOfSelection = props?.distribution ? props.distribution[index] : 0;
     return {
@@ -18,11 +18,11 @@ const ResultChart: React.FC<Props> = props => {
 
   return (
     <div>
-      <ResponsiveContainer width="100%" height={120}>
+      <ResponsiveContainer width="100%" height={optionsLength * 20}>
       <ComposedChart
         layout="vertical"
         data={chartData} 
-        margin={{ top: 10, right: 70, bottom: 0, left: 70 }}
+        margin={{ top: 0, right: 70, bottom: 0, left: 70 }}
       >
         <XAxis
         type="number"
@@ -40,6 +40,7 @@ const ResultChart: React.FC<Props> = props => {
         <Bar
           dataKey="人数"
           fill="#00c1e8"
+          barSize={12}
         />
       </ComposedChart>
       </ResponsiveContainer>

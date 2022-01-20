@@ -66,8 +66,8 @@ const QuestionResultCard: React.FC<Props> = props => {
             )
           })
           }
-          <div className="mt-2 mb-2 text-sm text-gray-500">回答者数: {numberOfSubmits}</div>
-          <div>
+          <div className="my-2 text-sm text-gray-500">回答者数: {numberOfSubmits}</div>
+          <div className="mt-6 mb-3">
            <ResultChart options={options} distribution={distribution} numberOfSubmits={numberOfSubmits} />
         </div>
         
