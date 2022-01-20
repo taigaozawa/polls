@@ -13,7 +13,10 @@ import { useAuthContext } from '../../../utils/AuthContext';
 import SkeltonCard from '../../../components/SkeltonCard';
 
 const PollPage = () => {
-  const [submit, setSubmit] = useState<Submit>();
+  const [submit, setSubmit] = useState<Submit>({
+    pollId: -1,
+    createdBy: ''
+  });
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [sent, setSent] = useState(false);
 
