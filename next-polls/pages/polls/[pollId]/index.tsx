@@ -130,12 +130,8 @@ const PollPage = () => {
                 {poll && <div className="flex justify-end">
                   <div
                     onClick={async () => {
-                      if (!submit) {
-                        alert('再試行してください。');
-                        return;
-                      }
                       setSent(true);
-                      const result = await createNewSubmit(submit, answers, currentUser);
+                      const result = await createNewSubmit(answers, submit, currentUser);
                       if (result) {
                         Router.push(`/polls/${pollId}/result`);
                       } else {

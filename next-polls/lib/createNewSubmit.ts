@@ -4,8 +4,15 @@ import { Submit } from "../types/Submit";
 import { Answer } from "../types/Answer";
 import { SubmitRequest } from "../types/SubmitRequest";
 
-export const createNewSubmit = async (submit: Submit, answers: Answer[], currentUser?: User | null) => {
-  if (!currentUser) alert('ログインしてください。');
+export const createNewSubmit = async (answers: Answer[], submit?: Submit, currentUser?: User | null) => {
+  if (!currentUser) {
+    alert('ログインしてください。');
+    return;
+  }
+  if (!submit) {
+    alert('再試行してください');
+    return;
+  }
   try {
     const idToken = await currentUser?.getIdToken(true);
     const submitRequest: SubmitRequest = {
