@@ -10,7 +10,7 @@ const IdInputCard = () => {
               <span className="">#</span>
             <input 
             value={pollId}
-            type="numeric"
+            type="tel"
             onChange={e => setPollId(e.target.value)}
             placeholder="ID"
             className="w-32 text-black mx-1.5 rounded-full focus:outline-none focus:ring focus: ring-green-500 px-3"/>

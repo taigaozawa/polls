@@ -98,8 +98,8 @@ const PollPage = () => {
               )
               :
               (<div>
-                <div className="font-bold text-2xl">{poll?.title || '.'}</div>
-                <div className="text-gray-600 mt-1 mb-5">{poll?.description || '.'}</div>
+                <div className="font-bold text-2xl">{poll?.title || '...'}</div>
+                <div className="text-gray-600 mt-1 mb-5">{poll?.description || '...'}</div>
                 <div
                  onClick={() => {Router.push(`/polls/${pollId}/result`);}}
                  className="flex justify-end mt-2 text-sm cursor-pointer text-gray-500 mb-5">回答しないで結果を見る →
